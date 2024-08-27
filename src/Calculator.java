@@ -1,13 +1,10 @@
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
-
 import java.time.Duration;
 import java.util.Objects;
-import java.util.function.Function;
+
 
 
 public class Calculator {
@@ -82,15 +79,11 @@ public class Calculator {
             }
         }
 
-        Wait<AndroidDriver> wait = new FluentWait<AndroidDriver>(driver)
+        Wait<AndroidDriver> wait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofSeconds(2));
 
-        wait.until(new Function<AndroidDriver, WebElement>() {
-            public WebElement apply(AndroidDriver driver) {
-                return driver.findElement(AppiumBy.xpath(locator));
-            }
-        });
+        wait.until(driver -> driver.findElement(AppiumBy.xpath(locator)));
     return this;
     }
 
