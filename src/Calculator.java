@@ -1,5 +1,13 @@
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
+
+import java.time.Duration;
+import java.util.Objects;
+import java.util.function.Function;
 
 
 public class Calculator {
@@ -49,6 +57,41 @@ public class Calculator {
     public String getPreview()
     {
         return driver.findElement(AppiumBy.xpath(Selectors.resultPreview)).getText();
+    }
+
+    public Calculator clickMoreOptions()
+    {
+        driver.findElement(AppiumBy.xpath(Selectors.moreOptionButton)).click();
+        return this;
+    }
+
+    public Calculator clickHelp()
+    {
+        driver.findElement(AppiumBy.xpath(Selectors.helpOption)).click();
+        return this;
+    }
+
+    public Calculator waitForElement(String locator, String activityRequired) throws InterruptedException {
+        if (!activityRequired.isEmpty())
+        {
+            int i = 10;
+            while(--i > 0)
+            {
+                if (Objects.requireNonNull(driver.currentActivity()).equals(activityRequired)) break;
+                Thread.sleep(1000);
+            }
+        }
+
+        Wait<AndroidDriver> wait = new FluentWait<AndroidDriver>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofSeconds(2));
+
+        wait.until(new Function<AndroidDriver, WebElement>() {
+            public WebElement apply(AndroidDriver driver) {
+                return driver.findElement(AppiumBy.xpath(locator));
+            }
+        });
+    return this;
     }
 
 }

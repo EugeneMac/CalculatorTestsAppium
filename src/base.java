@@ -5,9 +5,12 @@ import java.time.Duration;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class base {
+public class base
+{
 public static AndroidDriver driver;
-    public static void main(String[] args) throws MalformedURLException {
+
+    public static void main(String[] args) throws MalformedURLException
+    {
         String filePath = new File("").getAbsolutePath();
         UiAutomator2Options options = new UiAutomator2Options()
                 .setUdid("emulator-5554")
@@ -18,7 +21,5 @@ public static AndroidDriver driver;
                 .setAppPackage("com.google.android.calculator")
                 .setApp(filePath + "\\src\\Calculator_8.6.1.apk");
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
-
-
     }
 }
